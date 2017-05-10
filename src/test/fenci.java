@@ -1,8 +1,9 @@
 package test;
 
 public class fenci {
-	public  void go(String str){
+	public  String go(String str){
 		String[] fen= new String[10];
+		String newstr = "";
 		int maxmatch =4 ;
 		String s1;
 		boolean b = false;
@@ -23,9 +24,14 @@ public class fenci {
 			i--;
 		}
 		str = str.substring(0, str.length() - s1.length());
-		System.out.println(s1);
+		//System.out.println(s1);
 		fen[feni++] = s1;
+		if(newstr.length()==0)
+			newstr+= s1;
+		else
+			newstr = newstr +"/"+ s1;
 		length = str.length();
 		}
+		return newstr;
 	}
 }

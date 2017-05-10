@@ -1,16 +1,15 @@
 package test;
 
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Iterator;
+
 
 public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		String str = "明天你好";
+		String str = "你在干什么";
 		fenci f = new fenci();
-		f.go(str);
+		String[] fc = f.go(str).split("/");
+		System.out.println(f.go(str));
 	}
 
 }
