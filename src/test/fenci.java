@@ -1,7 +1,7 @@
 package test;
 
 public class fenci {
-	public  String go(String str){
+	public  static String go(String str){
 		String[] fen= new String[10];
 		String newstr = "";
 		int maxmatch =4 ;

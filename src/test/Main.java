@@ -6,10 +6,10 @@ public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		String str = "你在干什么";
-		fenci f = new fenci();
-		String[] fc = f.go(str).split("/");
-		System.out.println(f.go(str));
+		String str = "快递费用";
+		
+		
+		System.out.println(Answer.go(str));
 	}
 
 }
