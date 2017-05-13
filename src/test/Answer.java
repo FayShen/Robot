@@ -10,8 +10,9 @@ public class Answer {
 	
 	public static String go(String Que)
 	{
-		ArrayList<String> an= new ArrayList<String>();
-		File f = new File("D:/Answer.txt");
+		
+		ArrayList<String> an= GetAQ.GetList();
+		/*File f = new File("D:/Answer.txt");
 		String str;
 		BufferedReader reader = null;
 		try {
@@ -30,7 +31,7 @@ public class Answer {
 	            	e1.printStackTrace();
 	            }
 	        }
-	    }
+	    }*/
 		ArrayList<AQ> aq = new ArrayList<AQ>();
 		for(String strt:an)
 		{
