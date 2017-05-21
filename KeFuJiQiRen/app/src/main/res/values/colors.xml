@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="transparent">#00000000</color>
+    <color name="gray">#696969</color>
+    <color name="gray2">#818181</color>
+    <color name="gray3">#A9A9A9</color>
+    <color name="gray4">#C0C0C0</color>
+    <color name="gray5">#d9d9d9</color>
+    <color name="gray6">#f0f0f0</color>
+    <color name="white">#ffffffff</color>
+    <color name="red">#ff0000</color>
+    <color name="red2">#df2525</color>
+    <color name="red3">#FF6A6A</color>
+    <color name="red4">#ef71a1</color>
+    <color name="backgroundColor">#f0f0f0</color>
+    <color name="black">#000000</color>
+    <color name="pink">	#ffffc0cb</color>
+    <color name="pink2">#fde2e7</color>
+    <color name="orange">#E9967A</color>
+    <color name="pink3">#faeadb</color>
+    <color name="bg1">#f7ad68</color>
+    <color name="bg2">#f57c62</color>
+    <color name="bg3">#e15a64</color>
+    <color name="bg4">#abbd83</color>
+    <color name="bg5">#859b87</color>
+    <!-- 字体色 -->
+    <color name="text_title">#1b1b1b</color>
+    <color name="text_content">#818181</color>
+    <color name="text_sub">#919191</color>
+    <color name="text_hint">#c7c7c7</color>
+    <color name="text_black">#404040</color>
+    <!-- 其它背景色或分割线相关 -->
+    <color name="bg_content">#f3f3f3</color>
+    <color name="divider_line">#d9d9d9</color>
+</resources>
