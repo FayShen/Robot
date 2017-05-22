@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:clickable="true"
     android:gravity="center_vertical"
     android:orientation="vertical">
@@ -44,7 +44,7 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/voice_text"
+            android:id="@+id/txtVoice"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -59,7 +59,7 @@
             android:visibility="gone" />
 
         <ImageButton
-            android:id="@+id/emotion_button"
+            android:id="@+id/btnEmotion"
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:layout_marginLeft="@dimen/content_horizontal_margin"
@@ -67,23 +67,24 @@
             android:src="@mipmap/icon_chat_expression" />
 
         <ImageView
-            android:id="@+id/emotion_add"
+            android:id="@+id/emotionAdd"
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:layout_marginLeft="@dimen/content_horizontal_margin"
             android:clickable="true"
             android:scaleType="centerCrop"
-            android:src="@mipmap/icon_chat_add" />
+            android:src="@mipmap/icon_chat_add"
+            android:visibility="gone"/>
 
         <com.kefujiqiren.widget.StateButton
-            android:id="@+id/emotion_send"
+            android:id="@+id/btnSend"
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:layout_marginLeft="@dimen/content_horizontal_margin"
             android:padding="1dp"
             android:text="发送"
             android:textColor="@color/white"
-            android:visibility="gone"
+            android:visibility="visible"
             app:normalBackgroundColor="@color/colorPrimary"
             app:pressedBackgroundColor="@color/colorPrimaryDark"
             app:radius="5dp" />
@@ -96,7 +97,7 @@
         android:background="@color/divider_line" />
 
     <RelativeLayout
-        android:id="@+id/emotion_layout"
+        android:id="@+id/emotionLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/bg_content"
