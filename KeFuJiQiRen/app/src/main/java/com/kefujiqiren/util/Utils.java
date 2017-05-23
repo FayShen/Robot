@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ImageSpan;
-import android.util.Log;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -53,9 +52,9 @@ public class Utils {
 
             // 匹配字符串的开始位置
             int start = matcherEmotion.start();
-            Log.d("----------", key+start);
+            //Log.d("----------", key+start);
             // 利用表情名字获取到对应的图片
-            Integer imgRes = EmotionUtils.EMPTY_GIF_MAP.get(key);
+            Integer imgRes = EmotionUtils.EMOTION_STATIC_MAP.get(key);
             if (imgRes != null) {
                 // 压缩表情图片
                 int size = (int) tv.getTextSize() * 13 / 8;

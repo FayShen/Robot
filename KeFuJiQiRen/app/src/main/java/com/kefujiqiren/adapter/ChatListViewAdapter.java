@@ -62,14 +62,10 @@ public class ChatListViewAdapter extends ArrayAdapter<Msg> {
         return view;
     }
 
-    /*static class ViewHolder {
-        RelativeLayout left;
-        RelativeLayout right;
-        //        RoundedImageView headLeft;
-//        RoundedImageView headRight;
-        TextView txtLeft;
-        TextView txtRight;
-    }*/
+    @Override
+    public boolean isEnabled(int position) {
+        return false;
+    }
 
     class ViewHolder {
         @BindView(R.id.textTime)

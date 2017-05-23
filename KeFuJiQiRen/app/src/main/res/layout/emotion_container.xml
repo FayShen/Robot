@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linEmotion"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/emotion_contain_bg"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:visibility="gone" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center">
+            <android.support.v4.view.ViewPager
+                android:id="@+id/vpEmotion"
+                android:layout_width="match_parent"
+                android:layout_height="170dp"
+                android:layout_gravity="center"
+                android:padding="10dp" />
+
+    </LinearLayout>
+
+<!--    <LinearLayout
+        android:id="@+id/emotionPositionContainer"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal" >
+    </LinearLayout>-->
+
+    <com.kefujiqiren.widget.IndicatorView
+        android:id="@+id/dotGroup"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:orientation="horizontal" />
+
+</LinearLayout>

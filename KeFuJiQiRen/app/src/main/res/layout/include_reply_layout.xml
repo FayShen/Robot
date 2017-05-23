@@ -96,18 +96,20 @@
         android:layout_height="1dp"
         android:background="@color/divider_line" />
 
-    <RelativeLayout
-        android:id="@+id/emotionLayout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@color/bg_content"
-        android:orientation="vertical"
-        android:visibility="gone">
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/emotionLayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:background="@color/bg_content"-->
+        <!--android:orientation="vertical"-->
+        <!--android:visibility="gone">-->
 
-        <com.kefujiqiren.widget.NoScrollViewPager
-            android:id="@+id/viewpager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </RelativeLayout>
+        <!--<com.kefujiqiren.widget.NoScrollViewPager-->
+            <!--android:id="@+id/viewpager"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent" />-->
+    <!--</RelativeLayout>-->
+
+    <include layout="@layout/emotion_container"/>
 
 </LinearLayout>
