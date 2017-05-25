@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,12 +24,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kefujiqiren.R;
 import com.kefujiqiren.adapter.ChatListViewAdapter;
 import com.kefujiqiren.adapter.EmotionGridViewAdapter;
 import com.kefujiqiren.adapter.EmotionPagerAdapter;
 import com.kefujiqiren.bean.Msg;
+import com.kefujiqiren.util.AppServcie;
 import com.kefujiqiren.util.EmotionUtils;
 import com.kefujiqiren.util.Utils;
 import com.kefujiqiren.widget.IndicatorView;
@@ -40,6 +43,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -277,9 +285,12 @@ public class MainActivity extends AppCompatActivity {
                 }
                 msgList.add(new Msg(editChatText.getText().toString(), Msg.TYPE_SENT));
                 adapter.notifyDataSetChanged();
+                try {
+                    toGetResponse();
+                }catch (Exception e){
+                    Toast.makeText(MainActivity.this, "出错"+e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                }
                 editChatText.setText("");
-                //滚动到最后一条
-                //chatListView.smoothScrollToPosition(chatListView.getCount() - 1);
                 break;
         }
     }
@@ -289,5 +300,27 @@ public class MainActivity extends AppCompatActivity {
         if (linEmotion.getVisibility() == View.VISIBLE) {
             linEmotion.setVisibility(View.GONE);
         }
+    }
+
+    private void toGetResponse(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://api.douban.com/v2/book/")
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .build();
+        Call<String> call = retrofit.create(AppServcie.class).getResponse(editChatText.getText().toString().trim());
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                Log.d("----------",response.body().toString());
+                msgList.add(new Msg(response.body().toString(), Msg.TYPE_RECEIVED));
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "访问失败"+t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
