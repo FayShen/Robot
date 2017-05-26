@@ -37,6 +37,10 @@ import com.kefujiqiren.util.Utils;
 import com.kefujiqiren.widget.IndicatorView;
 import com.kefujiqiren.widget.StateButton;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -304,8 +308,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void toGetResponse(){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.douban.com/v2/book/")
+                //.baseUrl("https://api.douban.com/v2/book/")
+                .baseUrl("http://115.196.150.99:8080/Webtest/")
                 .addConverterFactory(ScalarsConverterFactory.create())
+                //.addConverterFactory(SimpleXmlConverterFactory.create())
                 .build();
         Call<String> call = retrofit.create(AppServcie.class).getResponse(editChatText.getText().toString().trim());
 
@@ -313,14 +319,63 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 Log.d("----------",response.body().toString());
-                msgList.add(new Msg(response.body().toString(), Msg.TYPE_RECEIVED));
+                String answer = parseXMLWithPull(response.body().toString());
+                answer = answer.replaceAll(System.getProperty("line.separator"),"");
+                Log.d("----------",answer);
+                msgList.add(new Msg(answer, Msg.TYPE_RECEIVED));
                 adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 Toast.makeText(MainActivity.this, "访问失败"+t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.d("_————————", "onFailure: "+t.getMessage());
             }
         });
+    }
+
+    //使用Pull解析xml
+    private String parseXMLWithPull(String xmlData){
+        //Log.d("MainActivity", "parseXMLWithPull(String xmlData)");
+        String answer="";
+        try{
+            //获取到XmlPullParserFactory的实例，并借助这个实例得到XmlPullParser对象
+            XmlPullParserFactory factory=XmlPullParserFactory.newInstance();
+            XmlPullParser xmlPullParser=factory.newPullParser();
+            //调用XmlPullParser的setInput方法将服务器返回的xml数据设置进去开始解析
+            xmlPullParser.setInput(new StringReader(xmlData));
+            //通过getEventType()方法得到当前解析事件
+            int eventType=xmlPullParser.getEventType();
+            while(eventType!=XmlPullParser.END_DOCUMENT){
+                //通过getName()方法得到当前节点的名字，如果发现节点名等于answer
+                //就调用nextText()方法来获取结点具体的内容，每当解析完一个app结点就将获取到的内容打印出来
+                String nodeName=xmlPullParser.getName();
+                //Log.d("MainActivity",""+eventType+ " nodeName= "+nodeName);
+                switch(eventType){
+                    //开始解析某个节点
+                    case XmlPullParser.START_TAG:{
+                        if("Answer".equals(nodeName)){
+                            answer=xmlPullParser.nextText();
+                            //Log.d("MainActivity", "answer is "+answer);
+                        }
+                        break;
+                    }
+                    case XmlPullParser.END_TAG:{
+                        if("Answer".equals(nodeName)){
+                           // Log.d("MainActivity", "answer is "+answer);
+                        }
+                        break;
+                    }
+                    default:
+                        break;
+                }
+                //调用next()方法获取到下一个解析事件
+                eventType=xmlPullParser.next();
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            Log.d("parseXMLWithPull:", "errrrrrrrrrrrrrrrrrrrrr"+e.getMessage());
+        }
+        return answer;
     }
 }

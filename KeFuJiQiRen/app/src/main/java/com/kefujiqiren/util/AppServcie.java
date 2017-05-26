@@ -9,6 +9,6 @@ import retrofit2.http.Query;
  */
 
 public interface AppServcie {
-    @GET("search")
-    Call<String> getResponse(@Query("q") String question);
+    @GET("NewFile.jsp")
+    Call<String> getResponse(@Query("question") String question);
 }
