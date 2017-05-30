@@ -46,18 +46,24 @@ public class ChatListViewAdapter extends ArrayAdapter<Msg> {
             view = convertView;
             holder = (ViewHolder) view.getTag();
         }
-
         if (msg.getType() == Msg.TYPE_RECEIVED) {
+            holder.txtTime.setVisibility(View.GONE);
             holder.left.setVisibility(View.VISIBLE);
             holder.right.setVisibility(View.GONE);
 //            holder.headLeft.setImageResource(msg.get());
             SpannableString ss = Utils.getEmotionContent(getContext(), holder.txtRight, msg.getContent());
             holder.txtLeft.setText(ss);
         } else if (msg.getType() == Msg.TYPE_SENT) {
+            holder.txtTime.setVisibility(View.GONE);
             holder.left.setVisibility(View.GONE);
             holder.right.setVisibility(View.VISIBLE);
             SpannableString ss = Utils.getEmotionContent(getContext(), holder.txtRight, msg.getContent());
             holder.txtRight.setText(ss);
+        }else if(msg.getType() == Msg.TYPE_TIME){
+            holder.left.setVisibility(View.GONE);
+            holder.right.setVisibility(View.GONE);
+            holder.txtTime.setVisibility(View.VISIBLE);
+            holder.txtTime.setText(msg.getTime());
         }
         return view;
     }
@@ -68,8 +74,8 @@ public class ChatListViewAdapter extends ArrayAdapter<Msg> {
     }
 
     class ViewHolder {
-        @BindView(R.id.textTime)
-        TextView textTime;
+        @BindView(R.id.txtTime)
+        TextView txtTime;
         @BindView(R.id.headLeft)
         RoundedImageView headLeft;
         @BindView(R.id.txtLeft)

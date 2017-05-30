@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
-        msgList.add(new Msg("今天是个好日子，[微笑][微笑][猪头][猪头]", Msg.TYPE_RECEIVED));
+        msgList.add(new Msg("你好有什么可以帮助你的，[微笑][微笑][猪头][猪头]", Utils.getCurrentTime(), Msg.TYPE_RECEIVED));
         adapter = new ChatListViewAdapter(this, R.layout.item_custom_service, msgList);
         chatListView.setAdapter(adapter);
         chatListView.setOnTouchListener(new View.OnTouchListener() {
@@ -287,10 +287,13 @@ public class MainActivity extends AppCompatActivity {
                 if(TextUtils.isEmpty(editChatText.getText())){
                     return ;
                 }
-                msgList.add(new Msg(editChatText.getText().toString(), Msg.TYPE_SENT));
+                if(msgList.size()>=1 && Utils.isShowTime(msgList.get(msgList.size()-1).getTime(), Utils.getCurrentTime())){
+                    msgList.add(new Msg(editChatText.getText().toString(), Utils.getCurrentTime(), Msg.TYPE_TIME));
+                }
+                msgList.add(new Msg(editChatText.getText().toString(), Utils.getCurrentTime(), Msg.TYPE_SENT));
                 adapter.notifyDataSetChanged();
                 try {
-                    toGetResponse();
+                    //toGetResponse();
                 }catch (Exception e){
                     Toast.makeText(MainActivity.this, "出错"+e.getMessage().toString(), Toast.LENGTH_SHORT).show();
                 }
@@ -322,7 +325,7 @@ public class MainActivity extends AppCompatActivity {
                 String answer = parseXMLWithPull(response.body().toString());
                 answer = answer.replaceAll(System.getProperty("line.separator"),"");
                 Log.d("----------",answer);
-                msgList.add(new Msg(answer, Msg.TYPE_RECEIVED));
+                msgList.add(new Msg(answer,Utils.getCurrentTime(), Msg.TYPE_RECEIVED));
                 adapter.notifyDataSetChanged();
             }
 

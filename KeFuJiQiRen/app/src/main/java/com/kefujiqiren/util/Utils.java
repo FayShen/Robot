@@ -7,9 +7,12 @@ import android.graphics.BitmapFactory;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ImageSpan;
+import android.util.Log;
 import android.widget.TextView;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -75,7 +78,7 @@ public class Utils {
      * @return
      */
     public static String getCurrentTime() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         return sdf.format(System.currentTimeMillis());
     }
 
@@ -132,4 +135,30 @@ public class Utils {
         }
         return sb.toString();
     }
+
+    public static boolean isShowTime(String starTime, String endTime) {
+        String timeString = "";
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
+        try {
+            Date parse = dateFormat.parse(starTime);
+            Date parse1 = dateFormat.parse(endTime);
+
+            long diff = parse1.getTime() - parse.getTime();
+
+            long second = diff/1000;
+            Log.d("UtilsTime", "isShowTime: "+second);
+            if(second>=30){
+                return true;
+            }else{
+                return false;
+            }
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return false;
+
+    }
+
 }

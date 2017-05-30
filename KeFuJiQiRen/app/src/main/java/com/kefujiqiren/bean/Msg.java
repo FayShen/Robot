@@ -7,19 +7,14 @@ package com.kefujiqiren.bean;
 public class Msg {
     public static final int TYPE_RECEIVED=0;
     public static final int TYPE_SENT=1;
+    public static final int TYPE_TIME=2;
     private String content;
+    private String time;
     private int type;
-    public Msg(String content, int type){
+    public Msg(String content, String time, int type) {
         this.content = content;
+        this.time = time;
         this.type = type;
-    }
-
-    public static int getTypeReceived() {
-        return TYPE_RECEIVED;
-    }
-
-    public static int getTypeSent() {
-        return TYPE_SENT;
     }
 
     public String getContent() {
@@ -28,6 +23,14 @@ public class Msg {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public int getType() {
