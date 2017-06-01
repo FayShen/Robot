@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ImageSpan;
-import android.util.Log;
 import android.widget.TextView;
 
 import java.text.ParseException;
@@ -147,7 +146,7 @@ public class Utils {
             long diff = parse1.getTime() - parse.getTime();
 
             long second = diff/1000;
-            Log.d("UtilsTime", "isShowTime: "+second);
+            //Log.d("UtilsTime", "isShowTime: "+second);
             if(second>=30){
                 return true;
             }else{

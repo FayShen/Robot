@@ -256,11 +256,19 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+
+        switch (id){
+            case R.id.menuSettings:
+                break;
+            case R.id.menuClean:
+                msgList.clear();
+                adapter.notifyDataSetChanged();
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
         }
 
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     @OnClick({R.id.btnEmotion, R.id.emotionAdd, R.id.btnSend})
@@ -312,7 +320,7 @@ public class MainActivity extends AppCompatActivity {
     private void toGetResponse(){
         Retrofit retrofit = new Retrofit.Builder()
                 //.baseUrl("https://api.douban.com/v2/book/")
-                .baseUrl("http://115.196.150.99:8080/Webtest/")
+                .baseUrl("http://115.196.153.212:8080/Webtest/")
                 .addConverterFactory(ScalarsConverterFactory.create())
                 //.addConverterFactory(SimpleXmlConverterFactory.create())
                 .build();
