@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.kefujiqiren.R;
+import com.kefujiqiren.activity.MainActivity;
 import com.kefujiqiren.bean.Msg;
 import com.kefujiqiren.util.Utils;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -53,12 +54,14 @@ public class ChatListViewAdapter extends ArrayAdapter<Msg> {
 //            holder.headLeft.setImageResource(msg.get());
             SpannableString ss = Utils.getEmotionContent(getContext(), holder.txtRight, msg.getContent());
             holder.txtLeft.setText(ss);
+            holder.headLeft.setImageBitmap(MainActivity.bmpService);
         } else if (msg.getType() == Msg.TYPE_SENT) {
             holder.txtTime.setVisibility(View.GONE);
             holder.left.setVisibility(View.GONE);
             holder.right.setVisibility(View.VISIBLE);
             SpannableString ss = Utils.getEmotionContent(getContext(), holder.txtRight, msg.getContent());
             holder.txtRight.setText(ss);
+            holder.headRight.setImageBitmap(MainActivity.bmpOwner);
         }else if(msg.getType() == Msg.TYPE_TIME){
             holder.left.setVisibility(View.GONE);
             holder.right.setVisibility(View.GONE);

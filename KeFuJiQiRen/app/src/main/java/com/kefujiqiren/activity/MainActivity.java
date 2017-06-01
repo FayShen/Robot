@@ -1,13 +1,21 @@
 package com.kefujiqiren.activity;
 
 import android.app.Activity;
+import android.content.ContentValues;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +31,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +44,7 @@ import com.kefujiqiren.util.AppServcie;
 import com.kefujiqiren.util.EmotionUtils;
 import com.kefujiqiren.util.Utils;
 import com.kefujiqiren.widget.IndicatorView;
+import com.kefujiqiren.widget.PhotoPopupWindow;
 import com.kefujiqiren.widget.StateButton;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -53,7 +63,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements PhotoPopupWindow.OnDialogListener{
 
 
     @BindView(R.id.toolbar)
@@ -92,12 +102,37 @@ public class MainActivity extends AppCompatActivity {
     private List<View> pageView = new ArrayList<View>();
     private EmotionPagerAdapter emotionPagerAdapter;
 
+//拍照
+    private PopupWindow mPopupWindow;
+    private Uri photoUri;
+    public static Bitmap bmpOwner;
+    public static Bitmap bmpService;
+    private int flag = 1;
+
+    /***
+     * 使用照相机拍照获取图片
+     */
+    public static final int SELECT_PIC_BY_CAMERA = 1;
+    /***
+     * 使用相册中的图片
+     */
+    public static final int SELECT_PIC_BY_LOCAL_PHOTO = 2;
+
+    private static final int CUT_PHOTO = 3;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+
+        mPopupWindow = new PhotoPopupWindow(this, this);
+
+
+        bmpOwner = BitmapFactory.decodeResource(getResources(), R.mipmap.head_default);
+        bmpService = BitmapFactory.decodeResource(getResources(), R.mipmap.head_default);
+
 
         msgList.add(new Msg("你好有什么可以帮助你的，[微笑][微笑][猪头][猪头]", Utils.getCurrentTime(), Msg.TYPE_RECEIVED));
         adapter = new ChatListViewAdapter(this, R.layout.item_custom_service, msgList);
@@ -264,6 +299,15 @@ public class MainActivity extends AppCompatActivity {
                 msgList.clear();
                 adapter.notifyDataSetChanged();
                 break;
+            case R.id.menuChangeOwnerHead:
+                flag = 1;
+                mPopupWindow.showAtLocation(chatListView, Gravity.BOTTOM, 0, 0);
+
+                break;
+            case R.id.menuChangeServiceHead:
+                flag = 2;
+                mPopupWindow.showAtLocation(chatListView, Gravity.BOTTOM, 0, 0);
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -388,5 +432,112 @@ public class MainActivity extends AppCompatActivity {
             Log.d("parseXMLWithPull:", "errrrrrrrrrrrrrrrrrrrrr"+e.getMessage());
         }
         return answer;
+    }
+
+    @Override
+    public void onCamera() {
+// 执行拍照前，应该先判断SD卡是否存在
+        String SDState = Environment.getExternalStorageState();
+        if (!SDState.equals(Environment.MEDIA_MOUNTED)) {
+            Toast.makeText(this, "内存卡不存在", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        try {
+            photoUri = getContentResolver().insert(
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                    new ContentValues());
+            if (photoUri != null) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                startActivityForResult(intent, SELECT_PIC_BY_CAMERA);
+
+            } else {
+                Toast.makeText(this, "发生意外，无法写入相册1", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+            Toast.makeText(this, "发生意外，无法写入相册", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onLocalPhoto() {
+        // 从相册中取图片
+        Intent choosePictureIntent = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(choosePictureIntent, SELECT_PIC_BY_LOCAL_PHOTO);
+    }
+
+    @Override
+    public void onCancel() {
+
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode,
+                                    Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case SELECT_PIC_BY_CAMERA:
+                    // 选择自拍结果
+                    beginCrop(photoUri);
+                    break;
+                case SELECT_PIC_BY_LOCAL_PHOTO:
+                    // 选择图库图片结果
+                    beginCrop(intent.getData());
+                    break;
+                case CUT_PHOTO:
+                    handleCrop(intent);
+                    break;
+            }
+
+        }
+    }
+
+    /**
+     * 裁剪图片方法实现
+     *
+     * @param uri
+     */
+    public void beginCrop(Uri uri) {
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/*");
+        // 下面这个crop=true是设置在开启的Intent中设置显示的VIEW可裁剪
+        intent.putExtra("crop", "true");
+        // aspectX aspectY 是宽高的比例
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        // outputX outputY 是裁剪图片宽高，注意如果return-data=true情况下,其实得到的是缩略图，并不是真实拍摄的图片大小，
+        // 而原因是拍照的图片太大，所以这个宽高当你设置很大的时候发现并不起作用，就是因为返回的原图是缩略图，但是作为头像还是够清晰了
+        intent.putExtra("outputX", 150);
+        intent.putExtra("outputY", 150);
+        //返回图片数据
+        intent.putExtra("return-data", true);
+        startActivityForResult(intent, CUT_PHOTO);
+    }
+
+    /**
+     * 保存裁剪之后的图片数据
+     *
+     * @param result
+     */
+    private void handleCrop(Intent result) {
+        Bundle extras = result.getExtras();
+        if (extras != null) {
+            try{
+                Bitmap bitmap = (Bitmap) extras.get("data");
+                if(flag == 1){
+                    bmpOwner = bitmap;
+                }else if(flag ==2){
+                    bmpService = bitmap;
+                }
+                adapter.notifyDataSetChanged();
+                //emotionVoice.setImageBitmap(bitmap);
+            }catch (Exception e){
+                e.printStackTrace();
+                Toast.makeText(this, "保存失败", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

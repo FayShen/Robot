@@ -14,4 +14,10 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <!--选择照片背景添加-->
+    <style name="ChoosePhotoAnimation" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/pop_getphoto_enter</item>
+        <item name="android:windowExitAnimation">@anim/pop_getphoto_exit</item>
+    </style>
+
 </resources>

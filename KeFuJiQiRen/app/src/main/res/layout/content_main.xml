@@ -11,6 +11,8 @@
     tools:showIn="@layout/activity_main"
     tools:context="com.kefujiqiren.activity.MainActivity">
 
+
+
     <ListView
         android:id="@+id/chatListView"
         android:layout_width="match_parent"
@@ -39,5 +41,4 @@
             <!--android:background="@android:color/holo_green_light"/>-->
     <!--</LinearLayout>-->
     <include layout="@layout/include_reply_layout"/>
-
 </LinearLayout>
