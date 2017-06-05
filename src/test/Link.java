@@ -16,6 +16,7 @@ public class Link {
 	  
 	    public Link(String database, String user, String password) {  
 	        try {  
+	        	System.out.println("开始");
 	        	url = "jdbc:mysql://localhost:3306/"+database+"?useSSL=true";
 	        	//System.out.println(url);
 	            Class.forName(name);//指定连接类型  
@@ -28,9 +29,14 @@ public class Link {
 	            else{
 	            	System.out.println("链接失败");
 	            }
-	        } catch (Exception e) {  
-	            e.printStackTrace();  
-	        }  
+	        } catch (ClassNotFoundException e) {  
+	            //e.printStackTrace();  
+	            System.out.println("ClassNotFound");
+	        } catch(SQLException sq)
+	        {
+	        	System.out.println("sql exception");
+	        	
+	        }
 	
 	    }  
 	  public ArrayList<String> select()

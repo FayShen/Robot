@@ -8,7 +8,7 @@ public class GetAQ {
 		Link link = new Link("answer","root","123456");
 		An = link.select();
 		link.close();
-		System.out.println(An);
+		//System.out.println(An);
 	}
 	public static ArrayList<String> GetList()
 	{
