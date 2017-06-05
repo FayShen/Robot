@@ -2,6 +2,7 @@ package com.kefujiqiren.activity;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -40,6 +41,7 @@ import com.kefujiqiren.adapter.ChatListViewAdapter;
 import com.kefujiqiren.adapter.EmotionGridViewAdapter;
 import com.kefujiqiren.adapter.EmotionPagerAdapter;
 import com.kefujiqiren.bean.Msg;
+import com.kefujiqiren.fragment.RegisterFragment;
 import com.kefujiqiren.util.AppServcie;
 import com.kefujiqiren.util.EmotionUtils;
 import com.kefujiqiren.util.Utils;
@@ -120,6 +122,10 @@ public class MainActivity extends AppCompatActivity implements PhotoPopupWindow.
 
     private static final int CUT_PHOTO = 3;
 
+    public static void activityStart(Context context){
+        Intent intent = new Intent(context, MainActivity.class);
+        context.startActivity(intent);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -294,6 +300,7 @@ public class MainActivity extends AppCompatActivity implements PhotoPopupWindow.
 
         switch (id){
             case R.id.menuSettings:
+                SettingActivity.activityStart(MainActivity.this);
                 break;
             case R.id.menuClean:
                 msgList.clear();
@@ -302,7 +309,6 @@ public class MainActivity extends AppCompatActivity implements PhotoPopupWindow.
             case R.id.menuChangeOwnerHead:
                 flag = 1;
                 mPopupWindow.showAtLocation(chatListView, Gravity.BOTTOM, 0, 0);
-
                 break;
             case R.id.menuChangeServiceHead:
                 flag = 2;
@@ -540,4 +546,24 @@ public class MainActivity extends AppCompatActivity implements PhotoPopupWindow.
             }
         }
     }
+
+    private long exitTime = 0;
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
+            if((System.currentTimeMillis()-exitTime) > 2000){
+                Toast.makeText(getApplicationContext(), "再按一次退出应用", Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+                //强制退出
+                System.exit(0);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+
 }

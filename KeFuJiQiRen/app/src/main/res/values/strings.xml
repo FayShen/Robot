@@ -4,4 +4,21 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_login">登陆</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">用户名</string>
+    <string name="prompt_password">密码</string>
+    <string name="prompt_confirm_password">确认密码</string>
+    <string name="action_sign_in">登陆</string>
+    <string name="action_sign_in_short">登陆</string>
+    <string name="error_invalid_username">用户名不合法ㄒ_ㄒ</string>
+    <string name="error_incorrect_username">用户名不存在o_O</string>
+    <string name="error_short_password">密码太短了/(ㄒoㄒ)/~~</string>
+    <string name="error_incorrect_password">密码错误o_O</string>
+    <string name="error_field_required">请输入用户名o_O</string>
+    <string name="error_incorrect_confirm">两次密码不一样o_O</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
 </resources>
