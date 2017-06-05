@@ -18,6 +18,7 @@ public class Link {
 	        try {  
 	        	System.out.println("开始");
 	        	url = "jdbc:mysql://localhost:3306/"+database+"?useSSL=true";
+	        	
 	        	//System.out.println(url);
 	            Class.forName(name);//指定连接类型  
 	            conn = DriverManager.getConnection(url, user, password);//获取连接  
@@ -88,7 +89,7 @@ public class Link {
 	            System.out.println("数据库已关闭");
 	        } catch (SQLException e) {  
 	            e.printStackTrace();  
-	        }  
+	        } 
 	    }  
 	    
 	    
