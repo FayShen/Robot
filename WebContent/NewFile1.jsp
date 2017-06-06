@@ -83,13 +83,33 @@ function update(i,que,ans,up)
 		up.value="修改";
 		que.setAttribute("disabled","disabled");
 		ans.setAttribute("disabled","disabled");
-		createRequest('action.jsp?type=2&id='+i+'&que='+que.value+'&ans='+ans.value);
+		q = que.value.trim();
+		a = ans.value.trim();
+		createRequest('action.jsp?type=2&id='+i+'&que='+q+'&ans='+a);
 	}
 				
+}
+function clean(q, a)
+{
+	q.value="";
+	a.value="";
 }
 </script>
 </head>
 <body>
+<div align="center" >
+<table>
+<tr>
+<td>问题</td>
+<td>答案</td>
+</tr>
+<tr>
+<td><textarea rows="2" cols="30" id="que_insert" ></textarea></td>
+<td><textarea rows="2" cols="30" id="ans_insert"></textarea></td>
+
+<td><input id="insert" type = "button" value="Insert " onclick="Insert(que_insert.value,ans_insert.value)"></td>
+<td><input id="clean" type = "button" value="清除" onclick="clean(que_insert,ans_insert)"></td>
+</tr>
 <%
 	GetAQ.Get();
 	ArrayList<String> list = GetAQ.GetList();
@@ -104,17 +124,19 @@ function update(i,que,ans,up)
 		catch(Exception e)
 		{}
 		%>
-		<input id="que_<%=i %>" type = "text" value="<%=s[0] %>" disabled="disabled" >
-		<input id="ans_<%=i %>" type = "text" value="<%=s[1] %>" disabled="disabled" >
-		<input id="del_<%=i %>" type = "button" value="Delete" onclick="deleteS(<%=i %>)">
-		<input id="up_<%=i %>" type = "button" value="修改" onclick="update(<%=i %>,que_<%=i %>,ans_<%=i %>,up_<%=i %>)">
-		<br>
+		<tr>
+		<td><textarea id="que_<%=i %>" rows="2" cols="30" disabled="disabled"><%=s[0] %></textarea></td>
+		<td><textarea id="ans_<%=i %>" rows="2" cols="30" disabled="disabled"><%=s[1] %></textarea></td>
+		
+		<td><input id="del_<%=i %>" type = "button" value="Delete" onclick="deleteS(<%=i %>)"></td>
+		<td><input id="up_<%=i %>" type = "button" value="修改" onclick="update(<%=i %>,que_<%=i %>,ans_<%=i %>,up_<%=i %>)"></td>
+		</tr>
 		<% 
 		
 	}
 %>
-<input id="que_insert" type = "text" value="" >
-<input id="ans_insert" type = "text" value="" >
-<input id="insert" type = "button" value="Insert" onclick="Insert(que_insert.value,ans_insert.value)">
+</table>
+		
+</div>
 </body>
 </html>
