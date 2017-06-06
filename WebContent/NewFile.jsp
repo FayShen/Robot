@@ -5,7 +5,5 @@
 	GetAQ.Get();
 	System.out.println(Answer.go(str));
 	String an = Answer.go(str);
+	out.println(an);
 %>
-<Answer>
-<%=an %> 
-</Answer>

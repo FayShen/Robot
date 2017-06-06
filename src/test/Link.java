@@ -51,7 +51,7 @@ public class Link {
 	    		while(rs.next())
 	    		{
 	    			String str = "";
-	    			str = rs.getString("que") + "/"+rs.getString("ans");
+	    			str = rs.getString("que") + "/"+rs.getString("ans")+"/"+rs.getString("id");
 	    			list.add(str);
 	    		}
 	    		rs.close();
@@ -69,7 +69,7 @@ public class Link {
 	  {
 		  try{
 	    		Statement stmt =  conn.createStatement();
-	    		String sql ="insert into s values('"+q+"','"+a+"');";
+	    		String sql ="insert into s(que,ans) values('"+q+"','"+a+"');";
 	    		stmt.executeUpdate(sql);
 	    		stmt.close();
 	    		return "Insert OK!";
@@ -91,6 +91,22 @@ public class Link {
 	            e.printStackTrace();  
 	        } 
 	    }  
+	    public void delete(int i)
+	    {
+	    	try{
+	    		Statement stmt =  conn.createStatement();
+	    		String sql ="delete from s where id ="+i+";";
+	    		stmt.executeUpdate(sql);
+	    		stmt.close();
+	    		
+	    		}
+	    	
+	    	catch(SQLException e)
+	    		{
+	    		System.out.println(e);
+	    		
+	    		}
+	    }
 	    
 	    
 }
