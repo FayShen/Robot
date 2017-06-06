@@ -2,6 +2,8 @@ package com.kefujiqiren.activity;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -15,6 +17,11 @@ import com.kefujiqiren.fragment.RegisterFragment;
 public class LoginActivity extends Activity implements FragmentManager.OnBackStackChangedListener{
     public static boolean mShowingBack = false;
     private FragmentManager fragmentManager;
+
+    public static void activityStart(Context context){
+        Intent intent = new Intent(context, LoginActivity.class);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

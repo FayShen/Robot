@@ -13,16 +13,4 @@
         android:title="清除"
         android:orderInCategory="101"/>
 
-    <item
-        android:id="@+id/menuChangeOwnerHead"
-        android:title="更换自己头像"
-        android:orderInCategory="101"/>
-
-    <item
-        android:id="@+id/menuChangeServiceHead"
-        android:title="更换自己头像"
-        android:orderInCategory="101"/>
-
-
-
 </menu>

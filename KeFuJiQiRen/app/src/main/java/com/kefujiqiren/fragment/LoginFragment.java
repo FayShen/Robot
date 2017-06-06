@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.kefujiqiren.R;
 import com.kefujiqiren.activity.LoginActivity;
 import com.kefujiqiren.activity.MainActivity;
+import com.kefujiqiren.util.UserInfoSave;
 import com.kefujiqiren.widget.StateButton;
 
 import butterknife.BindView;
@@ -134,7 +135,10 @@ public class LoginFragment extends Fragment {
                         public void run() {
                             loginProgress.setVisibility(View.GONE);
                             if (uName.equals("admin") && ps.equals("123456")) {
+                                UserInfoSave.saveUserInfo(getActivity(), uName, ps);
                                 MainActivity.activityStart(getActivity());
+                                getActivity().finish() ;
+
                             } else {
                                 if (uName.equals("admin")) {
                                     password.setError(getString(R.string.error_incorrect_username));
