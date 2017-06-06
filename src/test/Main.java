@@ -6,12 +6,14 @@ public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		String str = "12";
+	/*	String str = "12";
 		GetAQ.Get();
-	System.out.println(Answer.go(str));
+	System.out.println(Answer.go(str));*/
 	//SetAQ.set("ÄÄ¼Ò¿ìµÝ","Ô²Í¨");
 		//Link
-		
+		Link link = new Link("answer","root","123456");
+		link.update(10, "que", "ans");
+		link.close();
 	}
 
 }
