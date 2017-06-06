@@ -60,6 +60,8 @@ function deleteS(i)
 }
 function Insert(que, ans)
 {
+	que=que.trim();
+	ans = ans.trim();
 	if(que=="" || ans=="")
 	{
 		alert("不能为空！");
@@ -68,6 +70,22 @@ function Insert(que, ans)
 	{
 	createRequest('action.jsp?type=1&que='+que+'&ans='+ans);
 	}
+}
+function update(i,que,ans,up)
+{
+	if(up.value=="修改")
+	{
+	up.value="提交";
+	que.removeAttribute("disabled");
+	ans.removeAttribute("disabled");
+	}
+	else{
+		up.value="修改";
+		que.setAttribute("disabled","disabled");
+		ans.setAttribute("disabled","disabled");
+		createRequest('action.jsp?type=2&id='+i+'&que='+que.value+'&ans='+ans.value);
+	}
+				
 }
 </script>
 </head>
@@ -86,10 +104,10 @@ function Insert(que, ans)
 		catch(Exception e)
 		{}
 		%>
-		<input id="que_<%=i %>" type = "text" value="<%=s[0] %>" disabled="disabled">
-		<input id="ans_<%=i %>" type = "text" value="<%=s[1] %>" disabled="disabled">
-		<input id="but_<%=i %>" type = "button" value="Delete" onclick="deleteS(<%=i %>)">
-		<input id="but_<%=i %>" type = "button" value="Delete" onclick="deleteS(<%=i %>)">
+		<input id="que_<%=i %>" type = "text" value="<%=s[0] %>" disabled="disabled" >
+		<input id="ans_<%=i %>" type = "text" value="<%=s[1] %>" disabled="disabled" >
+		<input id="del_<%=i %>" type = "button" value="Delete" onclick="deleteS(<%=i %>)">
+		<input id="up_<%=i %>" type = "button" value="修改" onclick="update(<%=i %>,que_<%=i %>,ans_<%=i %>,up_<%=i %>)">
 		<br>
 		<% 
 		

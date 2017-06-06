@@ -107,6 +107,23 @@ public class Link {
 	    		
 	    		}
 	    }
+	    public void update(int id, String q, String a)
+	    {
+	    	try{
+	    		Statement stmt =  conn.createStatement();
+	    		String sql ="update s set que ='"+q+"', ans='"+a+"'  where id = "+id+";";
+	    		stmt.executeUpdate(sql);
+	    		stmt.close();
+	    		
+	    		}
+	    	
+	    	catch(SQLException e)
+	    		{
+	    		System.out.println(e);
+	    		
+	    		}
+	    	
+	    }
 	    
 	    
 }
