@@ -124,6 +124,31 @@ public class Link {
 	    		}
 	    	
 	    }
+	    public int Login(String name, String pwd)
+	    {
+	    	int i = 0;
+	    	try{
+	    		Statement stmt =  conn.createStatement();
+	    		String sql ="select id from login where us='"+name+"' AND pwd='"+pwd+"';";
+	    		ResultSet rs = stmt.executeQuery(sql);
+  		
+	    		while(rs.next())
+	    		{
+	    			String str = "";
+	    			str = rs.getString("id");
+	    			if(!str.isEmpty())
+	    				i = 1;
+	    		}
+	    		rs.close();
+	    		stmt.close();
+	    		}
+	    	
+	    	catch(Exception e)
+	    		{
+	    		e.printStackTrace();
+	    		}
+	    	return i;
+	    }
 	    
 	    
 }

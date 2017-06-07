@@ -12,8 +12,10 @@ public class Main {
 	//SetAQ.set("ÄÄ¼Ò¿ìµÝ","Ô²Í¨");
 		//Link
 		Link link = new Link("answer","root","123456");
-		link.update(10, "que", "ans");
+		int i =link.Login("2", "123456");
+		System.out.println(i);
 		link.close();
+		
 	}
 
 }

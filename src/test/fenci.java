@@ -2,7 +2,7 @@ package test;
 
 public class fenci {
 	public  static String go(String str){
-		String[] fen= new String[10];
+		String[] fen= new String[100];
 		String newstr = "";
 		int maxmatch =4 ;
 		String s1;
