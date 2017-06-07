@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.kefujiqiren.R;
 import com.kefujiqiren.adapter.ChatListViewAdapter;
+import com.kefujiqiren.db.UserDB;
 import com.kefujiqiren.util.RetrofitUtil;
 import com.kefujiqiren.util.UserInfoSave;
 import com.kefujiqiren.widget.PhotoPopupWindow;
@@ -153,17 +154,20 @@ public class SettingActivity extends Activity implements PhotoPopupWindow.OnDial
                     break;
                 case FROM_DETAIL_CHANGE_ACTIVITY:
                     Bundle bundle = intent.getExtras();
+                    UserDB db = UserDB.getInstance(SettingActivity.this);
                     if (model == 1) {
                         String uName = bundle.getString("username", "");
                         if (!TextUtils.isEmpty(uName)) {
                             username.setText(uName);
                             UserInfoSave.setUserName(SettingActivity.this, uName);
+                            db.changeUserName(UserInfoSave.getUserId(SettingActivity.this),uName);
                         }
                         return;
                     } else if (model == 2) {
-                        String password = bundle.getString("password", "");
-                        if (!TextUtils.isEmpty(password)) {
-                            UserInfoSave.setPassword(SettingActivity.this, password);
+                        String ps = bundle.getString("password", "");
+                        if (!TextUtils.isEmpty(ps)) {
+                            UserInfoSave.setPassword(SettingActivity.this, ps);
+                            db.changePassword(UserInfoSave.getUserId(SettingActivity.this),ps);
                         }
                     } else if (model == 3) {
                         String ip = bundle.getString("IP", "");

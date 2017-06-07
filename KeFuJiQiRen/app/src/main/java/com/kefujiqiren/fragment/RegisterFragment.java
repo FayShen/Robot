@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.kefujiqiren.R;
 import com.kefujiqiren.activity.LoginActivity;
+import com.kefujiqiren.db.UserDB;
 import com.kefujiqiren.widget.StateButton;
 import com.makeramen.roundedimageview.RoundedImageView;
 
@@ -140,7 +141,12 @@ public class RegisterFragment extends Fragment {
                         @Override
                         public void run() {
                             loginProgress.setVisibility(View.GONE);
-                            Toast.makeText(getActivity(), "注册成功~~~///(^v^)\\\\\\~~~", Toast.LENGTH_SHORT).show();
+                            UserDB db = UserDB.getInstance(getActivity());
+                            if(db.RegisterUser(uName, ps)) {
+                                Toast.makeText(getActivity(), "注册成功~~~///(^v^)\\\\\\~~~", Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(getActivity(), "注册失败/(ㄒoㄒ)/~~", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     });
                 }

@@ -8,10 +8,11 @@ import android.content.SharedPreferences;
  */
 
 public class UserInfoSave {
-    public static void saveUserInfo(Context context, String _username, String _password){
+    public static void saveUserInfo(Context context, String _username, String _password, int _userid){
         SharedPreferences.Editor editor = context.getSharedPreferences("userinfo", Context.MODE_PRIVATE).edit();
         editor.putString("username", _username);
         editor.putString("password", _password);
+        editor.putInt("userid", _userid);
         editor.commit();
     }
     public static String getUserName(Context context){
@@ -26,6 +27,12 @@ public class UserInfoSave {
         return password;
     }
 
+    public static int getUserId(Context context){
+        SharedPreferences pref = context.getSharedPreferences("userinfo", Context.MODE_PRIVATE);
+        int userid = pref.getInt("userid",-1);
+        return userid;
+    }
+
     public static void setUserName(Context context, String _username){
         SharedPreferences.Editor editor = context.getSharedPreferences("userinfo", Context.MODE_PRIVATE).edit();
         editor.putString("username", _username);
@@ -37,4 +44,6 @@ public class UserInfoSave {
         editor.putString("password", _password);
         editor.commit();
     }
+
+
 }

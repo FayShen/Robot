@@ -17,10 +17,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kefujiqiren.R;
 import com.kefujiqiren.activity.LoginActivity;
 import com.kefujiqiren.activity.MainActivity;
+import com.kefujiqiren.db.UserDB;
 import com.kefujiqiren.util.UserInfoSave;
 import com.kefujiqiren.widget.StateButton;
 
@@ -134,21 +136,28 @@ public class LoginFragment extends Fragment {
                         @Override
                         public void run() {
                             loginProgress.setVisibility(View.GONE);
-                            if (uName.equals("admin") && ps.equals("123456")) {
-                                UserInfoSave.saveUserInfo(getActivity(), uName, ps);
+                            UserDB db = UserDB.getInstance(getActivity());
+
+                            if (/*uName.equals("admin") && ps.equals("123456")||*/db.hasUserLogin(uName, ps)) {
+
+                                int userid = db.getUserId(uName);
+                                if(userid==-1){
+                                    Toast.makeText(getActivity(), "获取用户id失败", Toast.LENGTH_SHORT).show();
+                                }
+                                //Toast.makeText(getActivity(), "获取用户id="+userid, Toast.LENGTH_SHORT).show();
+                                UserInfoSave.saveUserInfo(getActivity(), uName, ps, userid);
                                 MainActivity.activityStart(getActivity());
                                 getActivity().finish() ;
 
                             } else {
-                                if (uName.equals("admin")) {
-                                    password.setError(getString(R.string.error_incorrect_username));
+                                if (db.getUserId(uName)>0) {
+                                    password.setError(getString(R.string.error_incorrect_password));
                                     password.requestFocus();
 
                                 } else {
                                     username.setError(getString(R.string.error_incorrect_username));
                                     username.requestFocus();
                                 }
-
                             }
                         }
                     });
